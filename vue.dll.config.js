@@ -2,6 +2,7 @@ const path = require('path')
 //去console插件
 const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const webpack = require('webpack')
 const srcPath = path.join(__dirname, './public/dll');
 
@@ -58,6 +59,11 @@ const webpackConfig = {
     }),
     new MiniCssExtractPlugin({
       filename: '[name].dll.css'
+    }),
+    new OptimizeCSSPlugin({
+      cssProcessorOptions: {
+        safe: true
+      }
     }),
     new ParallelUglifyPlugin({
       cacheDir: '.cache/',
