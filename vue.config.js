@@ -63,6 +63,7 @@ module.exports = {
 
 		webpackConfig.module
 			.rule('js')
+			.test(/\.js$/)
 			.include
 			.add([resolve('src'), resolve('test')])
 			.end()
@@ -118,13 +119,14 @@ module.exports = {
 				}
 			}
 		    }),
-		
+
 		]
 		if(process.env.NODE_ENV !== 'development') {
 			config.plugins = [...config.plugins, ...plugins]
 		}
 
 	},
+	crossorigin:"anonymous",
 	// vue-loader 配置项
 	// https://vue-loader.vuejs.org/en/options.html
 	// vueLoader: {},
