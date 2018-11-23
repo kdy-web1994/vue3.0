@@ -1,8 +1,7 @@
 const path = require('path')
 //去console插件
 const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require('webpack')
 const srcPath = path.join(__dirname, './public/dll');
 
@@ -20,7 +19,7 @@ const vendors = [
 const webpackConfig = {
   entry: {
     // 多入口，单入口情况，只需写一个，key值自定义，value值为数组
-    vendor: vendors,
+    libs: vendors,
 
   },
   resolve: {
@@ -32,12 +31,10 @@ const webpackConfig = {
     library: "[name]_library"
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          use: "css-loader"
-        })
+        use: [MiniCssExtractPlugin.loader, "css-loader"]
       },
       {
         test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
@@ -59,13 +56,8 @@ const webpackConfig = {
       context: __dirname,
 
     }),
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: '[name].dll.css'
-    }),
-    new OptimizeCSSPlugin({
-      cssProcessorOptions: {
-        safe: true
-      }
     }),
     new ParallelUglifyPlugin({
       cacheDir: '.cache/',
