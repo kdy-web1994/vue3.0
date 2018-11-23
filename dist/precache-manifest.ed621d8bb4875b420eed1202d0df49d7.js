@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "js/HelloWorld.6c612a44.js"
   },
   {
-    "revision": "3a451bad4e61b56c016eb384902332fd",
+    "revision": "bb88be7a9a1b3d1fc60e5718e229607e",
     "url": "index.html"
   },
   {
