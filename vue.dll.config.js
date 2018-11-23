@@ -19,7 +19,7 @@ const vendors = [
 const webpackConfig = {
   entry: {
     // 多入口，单入口情况，只需写一个，key值自定义，value值为数组
-    libs: vendors,
+    vendor: vendors,
 
   },
   resolve: {
