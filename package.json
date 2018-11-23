@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "dll": "webpack --config vue.dll.config.js"
   },
   "dependencies": {
     "register-service-worker": "^1.0.0",
@@ -26,10 +27,13 @@
     "babel-preset-env": "^1.3.2",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-3": "^6.22.0",
+    "extract-text-webpack-plugin": "^3.0.2",
     "node-sass": "^4.9.0",
+    "optimize-css-assets-webpack-plugin": "^3.2.0",
     "sass-loader": "^7.0.1",
     "vue-template-compiler": "^2.5.17",
-    "webpack-parallel-uglify-plugin": "^1.1.0"
+    "webpack-parallel-uglify-plugin": "^1.1.0",
+    "webpack": "^3.6.0"
   },
   "postcss": {
     "plugins": {

@@ -1,7 +1,7 @@
 const path = require('path')
 //去console插件
 const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
-
+const webpack = require('webpack');
 function resolve(dir) {
 	return path.join(__dirname, dir)
 }
@@ -119,7 +119,11 @@ module.exports = {
 				}
 			}
 		    }),
-
+				new webpack.DllReferencePlugin({
+		      context: __dirname,
+		      // manifest就是我们第一步中打包出来的json文件
+		      manifest: require('./public/dll/vendor-mainfest.json'),
+		    })
 		]
 		if(process.env.NODE_ENV !== 'development') {
 			config.plugins = [...config.plugins, ...plugins]
