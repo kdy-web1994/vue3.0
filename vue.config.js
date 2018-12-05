@@ -85,9 +85,6 @@ module.exports = {
 			   .end()
 			   
 		webpackConfig.module
-		    .noParse(/^(vue|vue-router|vuex)$/)
-
-		webpackConfig.module
 			 .rule('js')
 			 .test(/\.js$/)
 			.include
@@ -171,12 +168,12 @@ module.exports = {
 			app: ["babel-polyfill", "./src/main.js"] //最新的入口
 		}
 //		config.devtool = 'eval'
-		config.resolve = {
-			extensions: ['.js', '.vue', '.json'],
-			modules: ['./src/components', 'node_modules']
+		// config.resolve = {
+		// 	extensions: ['.js', '.vue', '.json'],
+		// 	modules: ['./src/components', 'node_modules']
 			
 
-		}
+		// }
 
 
 		let plugins = [
