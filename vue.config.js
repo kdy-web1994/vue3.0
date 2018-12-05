@@ -10,6 +10,17 @@ function resolveLocal(...args) {
 	return path.join(__dirname, '../../', ...args)
 }
 
+function getAssetPath (options, filePath, placeAtRootIfRelative) {
+	return options.assetsDir
+	  ? path.posix.join(options.assetsDir, filePath)
+	  : filePath
+  }
+
+
+    
+
+
+
 module.exports = {
 	/** 区分打包环境与开发环境
 	 * process.env.NODE_ENV==='production'  (打包环境)
@@ -22,6 +33,7 @@ module.exports = {
 	outputDir: 'dist',
 	// eslint-loader 是否在保存的时候检查
 	lintOnSave: false,
+	runtimeCompiler:true,
 	// use the full build with in-browser compiler?
 	// https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only
 	// compiler: true,
@@ -55,38 +67,102 @@ module.exports = {
 //				.optimization.ModuleConcatenationPlugin()
 
 		}
-		webpackConfig.resolveLoader
-			.modules
-			.add('node_modules')
-			.add(resolve('node_modules'))
-			.add(resolveLocal('node_modules'))
+		webpackConfig.resolve
+		    .extensions
+             .merge(['.js', '.vue', '.json'])
+             .end()
+			.alias
+			 .set('@', resolve('src'))
+			 .set('~', resolve('src/assets'))
+			 .set('vue$', 'vue/dist/vue.esm.js')
+			 .end()
+		
+	    webpackConfig.resolveLoader
+			 .modules
+			   .add('node_modules')
+			   .add(resolve('node_modules'))
+			   .add(resolveLocal('node_modules'))
+			   .end()
+			   
+		webpackConfig.module
+		    .noParse(/^(vue|vue-router|vuex)$/)
 
 		webpackConfig.module
-			.rule('js')
-			.test(/\.js$/)
+			 .rule('js')
+			 .test(/\.js$/)
 			.include
-			.add([resolve('src'), resolve('test')])
-			.end()
+			 .add([resolve('src'), resolve('test')])
+			 .end()
 			.exclude
-			.add(/node_modules/)
-			.add(/@vue\/cli-service/)
-			.end()
+			 .add(/node_modules/)
+			 .add(/@vue\/cli-service/)
+			 .end()
 
 		webpackConfig.module
-				.rule('vue')
-				.test(/\.vue$/)
+				 .rule('vue')
+				 .test(/\.vue$/)
 				.include
-				.add(resolve('src'))
-				.end()
+				 .add(resolve('src'))
+				 .end()
 				.exclude
-				.add(/node_modules/)
-        .end()
-				.use('vue-loader')
-         .loader('vue-loader')
-         .tap(options => {
-          // 修改它的选项...
-          return options
-         })
+				 .add(/node_modules/)
+                 .end()
+				 .use('vue-loader')
+                 .loader('vue-loader')
+                 .tap(options => {
+                 // 修改它的选项...
+                 return options
+				 }) 
+
+		webpackConfig.module
+				 .rule('vue')
+				 .test(/\.vue$/)
+				.include
+				 .add(resolve('src'))
+				 .end()
+				.exclude
+				 .add(/node_modules/)
+                 .end()
+				 .use('vue-loader')
+                 .loader('vue-loader')
+                 .tap(options => {
+                 // 修改它的选项...
+                 return options
+				 }) 
+
+		webpackConfig.module
+				 .rule('images')
+				  .test(/\.(png|jpe?g|gif|webp)(\?.*)?$/)
+				   .use('url-loader')
+					 .loader('url-loader')
+					 .tap(options => Object.assign(options, { limit: 10240 }))
+		             .end()
+		
+		webpackConfig.module
+				 .rule('svg')
+				  .test(/\.(svg)(\?.*)?$/)
+				   .use('file-loader')
+					 .loader('file-loader')
+					 .tap(options => Object.assign(options, { limit: 10240 }))
+					 .end()
+					 
+		webpackConfig.module
+				 .rule('media')
+				  .test(/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/)
+				   .use('url-loader')
+					 .loader('url-loader')
+					 .tap(options => Object.assign(options, { limit: 10240 }))
+					 .end()
+
+		webpackConfig.module
+					 .rule('fonts')
+					  .test(/\.(woff2?|eot|ttf|otf)(\?.*)?$/i)
+					   .use('url-loader')
+						 .loader('url-loader')
+						 .tap(options => Object.assign(options, { limit: 10240 }))
+						 .end()
+
+		
 
 	},
 	//如果想要引入babel-polyfill可以这样写
@@ -97,12 +173,8 @@ module.exports = {
 //		config.devtool = 'eval'
 		config.resolve = {
 			extensions: ['.js', '.vue', '.json'],
-			modules: ['./src/components', 'node_modules'],
-			alias: {
-				'vue$': 'vue/dist/vue.esm.js',
-				'@': resolve('src'),
-				'~': resolve('src/assets')
-			}
+			modules: ['./src/components', 'node_modules']
+			
 
 		}
 
@@ -136,7 +208,7 @@ module.exports = {
 	// vueLoader: {},
 	// 生产环境是否生成 sourceMap 文件
 	productionSourceMap: false,
-	integrity: true,
+	integrity: false,
 	// css相关配置
 	css: {
 		// 是否使用css分离插件 ExtractTextPlugin
