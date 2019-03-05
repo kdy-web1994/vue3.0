@@ -5,6 +5,11 @@ import router from './router'      //router
 import FastClick from 'fastclick'
 import store from './store/store'  //vuex
 import Api from './Api/api.js'
+import init from './components/index.js'
+
+
+init()
+
 
 if ('addEventListener' in document) {
   document.addEventListener('DOMContentLoaded', function() {

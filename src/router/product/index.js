@@ -1,14 +1,4 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-
-
-let err={
-  path:"*",
-  name:"404",
-  component:()=>import(/* webpackChunkName: "Err" */ '@/Err')
-}
-
-const requireComponent = require.context('../views', true, /\.vue$/);
+const requireComponent = require.context('../../views', true, /\.vue$/);
 const routes = requireComponent.keys().map(fileName => {
     // 获取组件配置
     const componentConfig = requireComponent(fileName);
@@ -27,10 +17,4 @@ const routes = requireComponent.keys().map(fileName => {
     }
 });
 
-
-
-Vue.use(Router)
-routes.push(err);
-export default new Router({
-  routes: routes
-})
+export default routes;

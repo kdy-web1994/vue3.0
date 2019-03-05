@@ -80,6 +80,8 @@
         </a>
       </li>
     </ul>
+    <Hi></Hi>
+    <Cat></Cat>
   </div>
 </template>
 
@@ -98,6 +100,10 @@ export default {
   },
   created(){
     console.log(this.avatar)
+    
+  },
+  methods:{
+    
   }
 }
 </script>
