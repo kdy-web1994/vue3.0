@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "dll": "webpack --config vue.dll.config.js",
-    "made": "node ./scripts/generateComponent"
+    "com": "node ./scripts/generateComponent",
+    "view": "node ./scripts/generateView"
   },
   "dependencies": {
     "register-service-worker": "^1.0.0",
